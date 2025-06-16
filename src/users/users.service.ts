@@ -37,4 +37,8 @@ export class UsersService {
     return this.userModel.findAll()
   }
 
+  create_admin(payload: Partial<User>) {
+      let newAdmin = this.userModel.create(payload)
+      return newAdmin
+  }
 }

@@ -16,7 +16,7 @@ export class AuthService {
                 username: payload.username
             }
         })
-        if (user) throw new ConflictException("This User Is Already Exists")
+        if (user) throw new ConflictException(`This ${payload.username} Is Already Exists`)
 
         let hash = await bcrypt.hash(payload.password, 10)
 

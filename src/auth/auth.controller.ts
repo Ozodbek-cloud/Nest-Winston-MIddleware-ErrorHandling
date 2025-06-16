@@ -10,7 +10,7 @@ export class AuthController {
         return this.authService.register_user(payload)
     }
 
-
+     
     @Post('login')
     loginUser(@Body() payload: Required<LoginDto>) {
         return this.authService.login(payload)
