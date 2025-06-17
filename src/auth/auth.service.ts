@@ -21,8 +21,7 @@ export class AuthService {
         let hash = await bcrypt.hash(payload.password, 10)
 
         let data = await this.userModel.create({ ...payload, password: hash })
-        let accessToken = await this.jwtService.signAsync({ userId: data.dataValues.id })
-
+        let accessToken = await this.jwtService.signAsync({ userId: data.dataValues.id, roles:data.dataValues.role})
         return { accessToken }
 
     }
@@ -36,7 +35,7 @@ export class AuthService {
 
         let compare = await bcrypt.compare(payload.password, exists.dataValues.password);
         if (!compare) throw new NotFoundException(`${payload.password} is not Equal to your last password`);
-        let accessToken = await this.jwtService.signAsync({ userId: exists.dataValues.id })
+        let accessToken = await this.jwtService.signAsync({ userId: exists.dataValues.id, roles:exists.dataValues.role })
 
         return {
             accessToken

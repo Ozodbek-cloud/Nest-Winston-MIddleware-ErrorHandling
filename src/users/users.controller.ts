@@ -6,7 +6,7 @@ import { UserRole } from 'src/global/type/user';
 import { AuthGuard } from 'src/auth/guards/jwt-auth.guards';
 import { RolesGuard } from 'src/global/guards/roles.guard';
 
-@Controller('users')
+@Controller()
 export class UsersController {
     constructor(private readonly userService: UsersService){}
     
@@ -18,15 +18,14 @@ export class UsersController {
     
     @UseGuards(AuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN, UserRole.SUPERADMIN)
-    @Roles()
     @Delete('users/delete/:id')
     Delete_users(@Param("id") id: number) {
         return this.userService.delete_user(id)
     }
     
     @UseGuards(AuthGuard, RolesGuard)
-    @Roles(UserRole.ADMIN, UserRole.SUPERADMIN)
-    @Get('users/all')
+    @Roles(UserRole.USER,UserRole.ADMIN, UserRole.SUPERADMIN)
+    @Get('all')
     GetAll() {
         return this.userService.get_all()
     }
