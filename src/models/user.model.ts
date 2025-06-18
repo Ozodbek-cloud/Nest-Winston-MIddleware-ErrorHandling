@@ -23,7 +23,7 @@ export class User extends Model{
 
    @Column({
       type: DataTypes.ENUM(...Object.values(UserRole)),
-      defaultValue: UserRole.SUPERADMIN
+      defaultValue: UserRole.USER
    })
    role: UserRole
 
