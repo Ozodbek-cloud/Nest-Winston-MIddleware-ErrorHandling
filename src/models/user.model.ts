@@ -27,4 +27,6 @@ export class User extends Model{
    })
    role: UserRole
 
+   @Column
+   filename: string
 }

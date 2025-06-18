@@ -41,4 +41,10 @@ export class UsersService {
       let newAdmin = this.userModel.create(payload)
       return newAdmin
   }
+  
+  async uploadsImg(payload: {username: string, age: number, password: string, filename: string}) {
+    let data = await this.userModel.create(payload)
+    return data
+  }
+  
 }

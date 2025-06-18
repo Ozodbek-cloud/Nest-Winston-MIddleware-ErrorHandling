@@ -1,8 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from 'src/models/user.model';
 import { UserRole } from 'src/global/type/user';
 import { Auth, UserBody, UserParam } from 'src/global/decorators/user.decorators';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { v4 as uuidv4 } from 'uuid';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { registerDto } from 'src/auth/authDto/auth.dto';
 
 @Controller()
 export class UsersController {
@@ -30,6 +35,21 @@ export class UsersController {
     @Post("add/admin")
     CreateAdmin(payload: Partial<User>) {
         return this.userService.create_admin(payload)
+    }
+     
+    @Post('uploads')
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            destination: "./uploads",
+            filename:(req, file, cb) => {
+                let filename =uuidv4()
+                cb(null, filename + extname(file.originalname))
+            }
+        })
+    }))
+
+    uploadsImg(@UploadedFile() file: Express.Multer.File, @Body() payload: any) {
+        return this.userService.uploadsImg({...payload, filename: file.filename})
     }
 
 }
